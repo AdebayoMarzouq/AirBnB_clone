@@ -32,8 +32,10 @@ class HBNBCommand(cmd.Cmd):
         "Place": Place,
         "Review": Review
     }
+    current_line = ""
 
     def parseline(self, line):
+        self.current_line = line
         pattern = r"(\b\w+)\.(\w+)\(([^()]*)\)"
         matches = re.findall(pattern, line)
         if matches and len(matches[0]) == 3:
@@ -77,8 +79,7 @@ class HBNBCommand(cmd.Cmd):
             _cls = getattr(self, 'do_' + model_method)
             _cls(" ".join(final_args))
         except AttributeError:
-            reconstruct_line = f"{args[1]}.{args[0]}({', '.join(args[2:])})"
-            return cmd.Cmd.default(self, reconstruct_line)
+            return cmd.Cmd.default(self, self.current_line)
         return None
 
     def do_count(self, line):
