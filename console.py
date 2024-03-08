@@ -72,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         args = line.split(' ')
         if len(args) < 3:
-            return cmd.Cmd.default(self, line)
+            return cmd.Cmd.default(self, self.current_line)
         model_method = args[0]
         final_args = args[1:]
         try:
