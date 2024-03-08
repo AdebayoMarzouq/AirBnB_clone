@@ -60,9 +60,9 @@ class HBNBCommand(cmd.Cmd):
                 pre = re.split(r",\s*", matches[0][2])
                 arguments = " ".join(pre).replace('"', "")
             combined = (
-                method_name
+                method_name.strip()
                 + " " +
-                model_name
+                model_name.strip()
                 + " " +
                 arguments)
             return (None, None, combined)
@@ -106,11 +106,13 @@ class HBNBCommand(cmd.Cmd):
 
             Usage: create <ModelName>
         """
-        if not line:
+        args = line.split()
+        if not args or not args[0]:
             print('** class name missing **')
             return
+
         try:
-            new_instance = HBNBCommand.all_classes[line]()
+            new_instance = HBNBCommand.all_classes[args[0]]()
             new_instance.save()
             print(new_instance.id)
         except KeyError:
